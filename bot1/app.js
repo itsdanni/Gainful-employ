@@ -22,13 +22,13 @@ var bot = new builder.UniversalBot(connector, function (session) {
 
     const text = session.message.text;
     const targetLanguage = "fr-fr";
-    console.log("BOT ORIG: ", text);
+    console.log("Text received by bot: ", text);
 
     // Testing
     //translator.translate(text, "fr-fr").then((translatedText) => console.log(translatedText));
     return Promise.resolve(translator.translate(text, targetLanguage))
         .then((translatedText) => {
-            console.log("IN APP: ", translatedText)
+            console.log("Text sent by bot: ", translatedText);
             session.send("You said: %s", translatedText);
         });
 });

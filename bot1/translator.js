@@ -2,11 +2,9 @@
 
 const rp = require('request-promise');
 
-// **********************************************
-// *** Update or verify the following values. ***
-// **********************************************
-
 module.exports.translate = function(text, targetLanguage) {
+
+    console.log("Text to translate:", text);
 
     // Replace the subscriptionKey string value with your valid subscription key.
     const subscriptionKey = "cfc2b05f41a54fd7a1949ecb69c7ae9a";
@@ -27,9 +25,9 @@ module.exports.translate = function(text, targetLanguage) {
 
     const translatedText = rp(request_params)
         .then((res) => {
-            console.log("RESP BODY: ", res.body)
             const strippedText = res.body.replace(/<string(.*?)>/, '').replace(/<\/string>/, '');
-            console.log("STRIPPED TEXT: ", strippedText)
+            console.log("Response body: ", res.body)
+            console.log("Translated text: ", strippedText)
             return strippedText;
         });
 
