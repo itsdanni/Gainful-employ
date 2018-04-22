@@ -1,5 +1,6 @@
 var restify = require('restify');
 var builder = require('botbuilder');
+var translator = require('./translator');
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -18,5 +19,16 @@ server.post('/api/messages', connector.listen());
 
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 var bot = new builder.UniversalBot(connector, function (session) {
-    session.send("You said: %s", session.message.text);
+
+    const text = session.message.text;
+    const targetLanguage = "fr-fr";
+    console.log("Text received by bot: ", text);
+
+    // Testing
+    //translator.translate(text, "fr-fr").then((translatedText) => console.log(translatedText));
+    return Promise.resolve(translator.translate(text, targetLanguage))
+        .then((translatedText) => {
+            console.log("Text sent by bot: ", translatedText);
+            session.send("You said: %s", translatedText);
+        });
 });
